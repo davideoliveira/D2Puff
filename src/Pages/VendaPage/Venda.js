@@ -28,7 +28,7 @@ function SalesPage() {
       console.log(error)
     }  
     
-  })
+  },[])
 
   // const dbRef = ref(getDatabase());
   // get(child(dbRef, `users/${userId}`)).then((snapshot) => {
@@ -101,18 +101,15 @@ function SalesPage() {
             </tr>
           </thead>
           <tbody>
-            {vendas.map((venda, index) => (
+            {vendas.reverse().map((venda, index) => (
               <tr key={venda.id}>
                 <th scope="row">{index + 1}</th>
                 <td>{venda.data}</td>
                 <td>{venda.vendedor}</td>
                 <td>{venda.modelo}</td>
                 <td>{venda.sabor}</td>
-                <td>{venda.precoVenda}</td>
+                <td>R${venda.precoVenda},00</td>
                 <td>
-                  <button className="btn btn-secondary" onClick={() => handleEditarVendaClick(venda)}>
-                    Editar venda
-                  </button>
                   <button className="btn btn-danger ms-2" onClick={() => handleExcluirVendaClick(venda.id)}>
                     Excluir venda
                   </button></td>

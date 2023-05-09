@@ -14,13 +14,16 @@ function VendaFormModal({ onClose, title, venda, operacaoBD }) {
       e.preventDefault();
     // Aqui você pode adicionar a lógica para salvar a venda
     const modelovenda = {...venda,
-      data: data,
+      data: new Date(Date.now()).toLocaleDateString(),
       vendedor: vendedor,
       modelo: modelo,
       sabor: sabor,
       precoVenda: precoVenda
     }
+    console.log(modelovenda.precoVenda)
+
     operacaoBD(modelovenda)
+
     onClose();
     }catch(erro){
       
@@ -39,25 +42,37 @@ function VendaFormModal({ onClose, title, venda, operacaoBD }) {
         </div>
         <div className="modal-body">
           <form onSubmit={handleFormSubmit}>
-            <div className="form-group">
-              <label>Data:</label>
-              <input type="text" value={data} onChange={(e) => setData(e.target.value)} />
-            </div>
+            
+            
             <div className="form-group">
               <label>Vendedor:</label>
-              <input type="text" value={vendedor} onChange={(e) => setVendedor(e.target.value)} />
+              <select className='form-select' onChange={(item) =>setVendedor(item.target.value)}>
+                <option></option>
+                <option value="Davi">Davi</option>
+                <option value="Duda">Duda</option>
+                <option value="Nicole">Nicole</option>
+              </select>
             </div>
             <div className="form-group">
               <label>Modelo:</label>
-              <input type="text" value={modelo} onChange={(e) => setModelo(e.target.value)} />
+              <select className='form-select' onChange={(item) =>setModelo(item.target.value)}>
+                <option></option>
+                <option value="ELFBAR BC4000">ELFBAR BC4000</option>
+                <option value="ELFBAR TE5000">ELFBAR TE5000</option>
+              </select>
             </div>
             <div className="form-group">
               <label>Sabor:</label>
-              <input type="text" value={sabor} onChange={(e) => setSabor(e.target.value)} />
+              <select className='form-select' onChange={(item) =>setSabor(item.target.value)}>
+                <option></option>
+                <option value="GREEN APPLE">GREEN APPLE</option>
+                <option value="WATERMELON ICE">WATERMELON ICE</option>
+                <option value="GRAPE">GRAPE</option>
+              </select>
             </div>
             <div className="form-group">
               <label>Preço de venda:</label>
-              <input type="text" value={precoVenda} onChange={(e) => setPrecoVenda(e.target.value)} />
+              <input type="number" value={precoVenda} onChange={(e) => setPrecoVenda(e.target.value)} />
             </div>
             <div className="form-group">
               <button type="submit">Salvar</button>
