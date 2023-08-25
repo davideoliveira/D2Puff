@@ -63,7 +63,7 @@ function SalesPage() {
 
   const handleExcluirVendaClick = (idvenda) => {
     deletaVenda(idvenda)
-  };
+  }; 
 
   return (
     <div>
@@ -77,16 +77,8 @@ function SalesPage() {
           operacaoBD={operacaoBD}
         />
       )}
-      <div className="d-flex justify-content-end mb-3">
-        <button className="btn btn-primary me-2" onClick={handleNovaVendaClick}>
-          Nova venda
-        </button>
-        {/* <button className="btn btn-secondary" onClick={() => handleEditarVendaClick()}>
-          Editar venda
-        </button>
-        <button className="btn btn-danger ms-2" onClick={() => handleExcluirVendaClick({})}>
-          Excluir venda
-        </button> */}
+      <div style={{textAlign:'center'}}>
+        <button className="btn btn-primary me-2" onClick={handleNovaVendaClick}>Nova venda</button>
       </div>
       <div className="table-responsive">
       <table className="table">
@@ -94,10 +86,9 @@ function SalesPage() {
             <tr>
               <th scope="col">#</th>
               <th scope="col">Data</th>
-              <th scope="col">Vendedor</th>
-              <th scope="col">Modelo</th>
-              <th scope="col">Sabor</th>
+              <th scope="col">Modelo/Sabor</th>
               <th scope="col">Preço de venda</th>
+              <th scope="col">Vendedor</th>
             </tr>
           </thead>
           <tbody>
@@ -105,13 +96,15 @@ function SalesPage() {
               <tr key={venda.id}>
                 <th scope="row">{index + 1}</th>
                 <td>{venda.data}</td>
-                <td>{venda.vendedor}</td>
-                <td>{venda.modelo}</td>
-                <td>{venda.sabor}</td>
+                <td>{venda.modeloSabor}</td>
                 <td>R${venda.precoVenda},00</td>
+                <td>{venda.vendedor}</td>
                 <td>
-                  <button className="btn btn-danger ms-2" onClick={() => handleExcluirVendaClick(venda.id)}>
+                  <button className="btn btn-danger editaveis" onClick={() => handleExcluirVendaClick(venda.id)}>
                     Excluir venda
+                  </button>
+                  <button className="btn btn-secondary editaveis" onClick={() => handleEditarVendaClick(venda)}>
+                    Editar venda
                   </button></td>
               </tr>
             ))}

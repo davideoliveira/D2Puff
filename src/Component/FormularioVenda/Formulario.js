@@ -1,12 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ref, onValue } from 'firebase/database';
+import { database } from '../../FireBase/Configuracao';
+
+
 import './Formulario.css'
 
 function VendaFormModal({ onClose, title, venda, operacaoBD }) {
   const [data, setData] = useState(venda.data);
   const [vendedor, setVendedor] = useState(venda.vendedor);
-  const [modelo, setModelo] = useState(venda.modelo);
-  const [sabor, setSabor] = useState(venda.sabor);
+  const [modeloSabor, setModeloSabor] = useState(venda.modeloSabor);
   const [precoVenda, setPrecoVenda] = useState(venda.precoVenda);
+
+  const [items, setItems] = useState([]);
+  
+  useEffect(() => {
+
+    try{
+      onValue(ref(database, '/estoque'), (snapshot) => {
+      setItems([])
+      const data = snapshot.val()
+      if(data!== null) {
+        Object.values(data).map((item) =>setItems((oldarray) => [...oldarray,item]))
+      }
+    })
+    }
+    catch(error){
+      console.log(error)
+    }  
+  }, []);
+
 
   const handleFormSubmit = (e) => {
 
@@ -16,11 +38,9 @@ function VendaFormModal({ onClose, title, venda, operacaoBD }) {
     const modelovenda = {...venda,
       data: new Date(Date.now()).toLocaleDateString(),
       vendedor: vendedor,
-      modelo: modelo,
-      sabor: sabor,
+      modeloSabor: modeloSabor,
       precoVenda: precoVenda
     }
-    console.log(modelovenda.precoVenda)
 
     operacaoBD(modelovenda)
 
@@ -50,24 +70,16 @@ function VendaFormModal({ onClose, title, venda, operacaoBD }) {
                 <option></option>
                 <option value="Davi">Davi</option>
                 <option value="Duda">Duda</option>
-                <option value="Nicole">Nicole</option>
               </select>
             </div>
             <div className="form-group">
               <label>Modelo:</label>
-              <select className='form-select' onChange={(item) =>setModelo(item.target.value)}>
+              <select className='form-select' onChange={(item) =>setModeloSabor(item.target.value)}>
                 <option></option>
-                <option value="ELFBAR BC4000">ELFBAR BC4000</option>
-                <option value="ELFBAR TE5000">ELFBAR TE5000</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label>Sabor:</label>
-              <select className='form-select' onChange={(item) =>setSabor(item.target.value)}>
-                <option></option>
-                <option value="GREEN APPLE">GREEN APPLE</option>
-                <option value="WATERMELON ICE">WATERMELON ICE</option>
-                <option value="GRAPE">GRAPE</option>
+
+                {items.map((item) => (
+                  <option>{item.modeloSabor}</option>
+                ))}
               </select>
             </div>
             <div className="form-group">

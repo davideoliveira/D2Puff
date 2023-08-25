@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../Component/Header.js/Header';
 import EstoqueFormModal from '../../Component/FormulárioEstoque/FormularioEstoque';
-import { addEstoque, editItem } from '../../FireBase/DataBase';
+import { addEstoque, editItem, deletaEstoque } from '../../FireBase/DataBase';
 import { database } from '../../FireBase/Configuracao';
 import { ref, onValue } from 'firebase/database';
 import './Estoque.css'
-
-
-// import firebase from 'firebase/app';
-// import 'firebase/database';
 
 function EstoqueManager() {
 
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState('');
-  const [modalEstoque, setModalEstoque] = useState('')
+  const [modalEstoque, setModalEstoque] = useState(null)
   const [operacaoBD, setopracaoBD] = useState(null)
 
 
-  const [items, setItems] = useState([]);
-  const [newItem, setNewItem] = useState({ name: '', quantity: 0, price: 0 });
-
+ const [items, setItems] = useState([]);
+  
   useEffect(() => {
 
     try{
@@ -35,28 +30,14 @@ function EstoqueManager() {
     catch(error){
       console.log(error)
     }  
-    // const itemsRef = firebase.database().ref('estoque');
-    // itemsRef.on('value', (snapshot) => {
-    //   const items = snapshot.val();
-    //   const itemList = [];
-    //   for (let id in items) {
-    //     itemList.push({ id, ...items[id] });
-    //   }
-    //   setItems(itemList);
-    // });
   }, []);
-
+ 
   const handleAddItem = (e) => {
 
     setModalTitle('Adicionar Estoque');
     setModalEstoque(e);
     setShowModal(true);
     setopracaoBD(() => addEstoque)
-
-    // // e.preventDefault();
-    // // const itemsRef = firebase.database().ref('estoque');
-    // itemsRef.push(newItem);
-    // setNewItem({ name: '', quantity: 0, price: 0 });
   };
 
   const editProduto = (produto) => {
@@ -65,20 +46,12 @@ function EstoqueManager() {
     setModalEstoque(produto);
     setShowModal(true);
     setopracaoBD(() => editItem)
-    // const itemRef = firebase.database().ref(`/estoque/${id}`);
-    // itemRef.remove();
+    
   };
 
-  const handleReportLoss = (id, lossQuantity) => {
-    // // const itemRef = firebase.database().ref(`/estoque/${id}`);
-    // const updatedQuantity = items.find((item) => item.id === id).quantity - lossQuantity;
-    // itemRef.update({ quantity: updatedQuantity });
-  };
-
-  const handleChangeNewItem = (e) => {
-    const { name, value } = e.target;
-    setNewItem({ ...newItem, [name]: value });
-  };
+  const handleExcluirEstoque = (idvenda) => {
+    deletaEstoque(idvenda)
+  }; 
 
   return (
     <div>
@@ -93,31 +66,29 @@ function EstoqueManager() {
           operacaoBD={operacaoBD}
         />
       )}
+      <div style={{textAlign:'center'}}>
         <button className="btnestoque" type="submit" onClick={handleAddItem}>Adicionar</button>
+      </div>
         
       <table>
         <thead>
           <tr>
-            <th>Modelo</th>
-            <th>Sabor</th>
-            <th>Qtd. Davi</th>
-            <th>Qtd. Duda</th>
-            <th>Qtd. Nicole</th>
-
+            <th>Modelo/Sabor</th>
+            <th>Quantidade</th>
+            <th>Custo</th>
           </tr>
         </thead>
         <tbody>
           {items.map((item) => (
             <tr key={item.id}>
-              <td>{item.modelo}</td>
-              <td>{item.sabor}</td>
-              <td>{item.qtdDavi}</td>
-              <td>{item.qtdDuda}</td>
-              <td>{item.qtdNicole}</td>
-
+              <td>{item.modeloSabor}</td>
+              <td>{item.quantidade} Unidade(s)</td>
+              <td>R${item.custo},00</td>
 
               <td>
-                <button class="btn-edit"  onClick={() => editProduto(item)}>Editar</button>
+                <button class="btn-edit"  onClick={() => editProduto(item)}>Editar</button> 
+                <button class="btn-edit btn-danger"  onClick={() => handleExcluirEstoque(item.id)}>Excluir</button> 
+
               </td>
             </tr>
           ))}

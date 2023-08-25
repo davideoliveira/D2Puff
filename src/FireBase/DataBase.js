@@ -9,8 +9,7 @@ export function adicionarVenda(venda) {
         id: id,
         data: venda.data,
         vendedor: venda.vendedor,
-        modelo: venda.modelo,
-        sabor: venda.sabor,
+        modeloSabor: venda.modeloSabor,
         precoVenda: venda.precoVenda
     })
     .catch((erro) => {
@@ -23,8 +22,7 @@ export function editarVenda(venda) {
     update(ref(database,`vendas/${venda.id}`), {
         data: venda.data,
         vendedor: venda.vendedor,
-        modelo: venda.modelo,
-        sabor: venda.sabor,
+        modeloSabor: venda.modeloSabor,
         precoVenda: venda.precoVenda
     })
     .catch((erro) => {
@@ -45,11 +43,10 @@ export function addEstoque(produto){
 
     set(ref(database, `estoque/${id}`), {
         id: id,
-        modelo: produto.modelo,
-        sabor: produto.sabor,
-        qtdDavi: produto.qtdDavi,
-        qtdDuda: produto.qtdDuda,
-        qtdNicole: produto.qtdNicole
+        modeloSabor: produto.modeloSabor,
+        quantidade: produto.quantidade,
+        custo: produto.custo
+        
     })
     .catch((erro) => {
         alert(erro.message)
@@ -59,13 +56,20 @@ export function addEstoque(produto){
 
 export function editItem(produto) {
     update(ref(database,`estoque/${produto.id}`), {
-        modelo: produto.modelo,
-        sabor: produto.sabor,
-        qtdDavi: produto.qtdDavi,
-        qtdDuda: produto.qtdDuda,
-        qtdNicole: produto.qtdNicole
+        modeloSabor: produto.modeloSabor,
+        quantidade: produto.quantidade,
+        custo: produto.custo
+
     })
     .catch((erro) => {
         alert(erro.message)
     })
+}
+
+export function deletaEstoque(id) {
+    remove(ref(database, `estoque/${id}`))
+    .catch((erro) => {
+        alert(erro.message)
+    })
+
 }

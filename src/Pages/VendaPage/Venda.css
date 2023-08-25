@@ -1,11 +1,11 @@
 h1 {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
-    margin-left: 70px;
+    text-align: center;
   }
   
   table {
-    width: 50%;
+    width: 80%;
     border-collapse: collapse;
   }
   
@@ -51,19 +51,18 @@ h1 {
       border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
   
-  .btn-primary {
+ .btn-primary {
     color: #fff;
     background-color: #007bff;
     border-color: #007bff;
     margin-bottom: 20px;
-    margin-left: 70px;
   }
   
   .btn-primary:hover {
     color: #fff;
     background-color: #0069d9;
     border-color: #0062cc;
-  }
+  } 
   
   .btn-secondary {
     color: #fff;
@@ -88,11 +87,16 @@ h1 {
     background-color: #c82333;
     border-color: #bd2130;
   }
+  .editaveis {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+  }
   
 /* Estilos para telas pequenas (até 576px) */
 @media (max-width: 576px) {
     h1 {
       font-size: 2rem;
+      text-align: center;
     }
     
     .d-flex {
@@ -101,8 +105,8 @@ h1 {
     }
     
     .btn {
-      width: 80%;
-      
+      width: 100%;
+
       flex-direction: row;
       margin:auto;
       margin-bottom: 1rem;
@@ -132,12 +136,12 @@ h1 {
 /* tornar a tabela responsiva */
 .table-responsive {
     overflow-x: auto;
-   margin: auto;
+   /* margin: auto; */
   }
   
   /* adicionar rolagem horizontal na tabela */
   table {
-    width: 90%;
+    width: 80%;
     max-width: 100%;
     margin-bottom: 1rem;
     background-color: transparent;

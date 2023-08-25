@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import './FormularioEstoque.css'
 
 function EstoqueFormModal({ onClose, title, produto, operacaoBD }) {
-  const [qtdDavi, setQtdDavi] = useState(produto.qtdDavi);
-  const [qtdDuda, setQtdDuda] = useState(produto.qtdDuda);
-  const [qtdNicole, setQtdNicole] = useState(produto.qtdNicole);
-
-  const [modelo, setModelo] = useState(produto.modelo);
-  const [sabor, setSabor] = useState(produto.sabor);
+  const [quantidade, setQuantidade] = useState(produto.quantidade);
+  const [modeloSabor, setModeloSabor] = useState(produto.modeloSabor);
+  const [custo, setCusto] = useState(produto.custo)
 
   const handleFormSubmit = (e) => {
 
@@ -15,11 +12,9 @@ function EstoqueFormModal({ onClose, title, produto, operacaoBD }) {
       e.preventDefault();
     // Aqui você pode adicionar a lógica para salvar a venda
     const modeloproduto = {...produto,
-        modelo: modelo,
-        sabor: sabor,
-        qtdDavi: qtdDavi,
-        qtdDuda: qtdDuda,
-        qtdNicole: qtdNicole
+        modeloSabor: modeloSabor,
+        quantidade: quantidade,
+        custo: custo
     }
     operacaoBD(modeloproduto)
     onClose();
@@ -41,25 +36,20 @@ function EstoqueFormModal({ onClose, title, produto, operacaoBD }) {
         <div className="modal-body">
           <form onSubmit={handleFormSubmit}>
             <div className="form-group">
-              <label>Modelo:</label>
-              <input type="text" value={modelo} onChange={(e) => setModelo(e.target.value)} />
+              <label>Modelo/Sabor:</label>
+              <input type="text" value={modeloSabor} onChange={(e) => setModeloSabor(e.target.value)} />
             </div>
+            
             <div className="form-group">
-              <label>Sabor:</label>
-              <input type="text" value={sabor} onChange={(e) => setSabor(e.target.value)} />
+              <label>Quantidade:</label>
+              <input type="number" value={quantidade} onChange={(e) => setQuantidade(e.target.value)} />
             </div>
+
             <div className="form-group">
-              <label>Qtd. Davi:</label>
-              <input type="text" value={qtdDavi} onChange={(e) => setQtdDavi(e.target.value)} />
+              <label>Custo:</label>
+              <input type="number" value={custo} onChange={(e) => setCusto(e.target.value)} />
             </div>
-            <div className="form-group">
-              <label>Qtd. Duda</label>
-              <input type="text" value={qtdDuda} onChange={(e) => setQtdDuda(e.target.value)} />
-            </div>
-            <div className="form-group">
-              <label>Qtd. Nicole</label>
-              <input type="text" value={qtdNicole} onChange={(e) => setQtdNicole(e.target.value)} />
-            </div>
+            
 
             <div className="form-group">
               <button type="submit">Salvar</button>
