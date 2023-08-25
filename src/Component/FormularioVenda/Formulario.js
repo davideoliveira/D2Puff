@@ -12,6 +12,7 @@ function VendaFormModal({ onClose, title, venda, operacaoBD }) {
   const [precoVenda, setPrecoVenda] = useState(venda.precoVenda);
 
   const [items, setItems] = useState([]);
+  const [produto, setProduto] = useState('')
   
   useEffect(() => {
 
@@ -34,17 +35,22 @@ function VendaFormModal({ onClose, title, venda, operacaoBD }) {
 
     try{
       e.preventDefault();
+      items.forEach(element => {
+        if (modeloSabor==element.modeloSabor){
+          const modelovenda = {...venda,
+            data: new Date(Date.now()).toLocaleDateString(),
+            vendedor: vendedor,
+            modeloSabor: modeloSabor,
+            precoVenda: precoVenda,
+            produto: element
+          }
+          operacaoBD(modelovenda)
+      
+          onClose();
+        }
+        
+      });
     // Aqui você pode adicionar a lógica para salvar a venda
-    const modelovenda = {...venda,
-      data: new Date(Date.now()).toLocaleDateString(),
-      vendedor: vendedor,
-      modeloSabor: modeloSabor,
-      precoVenda: precoVenda
-    }
-
-    operacaoBD(modelovenda)
-
-    onClose();
     }catch(erro){
       
     }

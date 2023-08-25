@@ -4,14 +4,20 @@ import { push, child, ref, update, remove, set } from "firebase/database";
 
 export function adicionarVenda(venda) {
     const id = push(child(ref(database), 'vendas')).key
-
+    //adiciona venda
     set(ref(database, `vendas/${id}`), {
         id: id,
         data: venda.data,
         vendedor: venda.vendedor,
         modeloSabor: venda.modeloSabor,
         precoVenda: venda.precoVenda
+    },
+    //diminui estoque
+    update(ref(database,`estoque/${venda.produto.id}`), {
+        quantidade: venda.produto.quantidade - 1
+
     })
+    )
     .catch((erro) => {
         alert(erro.message)
     })
