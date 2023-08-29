@@ -19,17 +19,31 @@ function EstoqueManager() {
   useEffect(() => {
 
     try{
+
+      //Atualiza o estoque ordenando por o modelo por ordem alfabetica
       onValue(ref(database, '/estoque'), (snapshot) => {
       setItems([])
       const data = snapshot.val()
       if(data!== null) {
-        Object.values(data).map((item) =>setItems((oldarray) => [...oldarray,item]))
+        Object.values(data).map((item)=>{
+          if(item.quantidade > 0){
+            setItems((oldarray) => [...oldarray,item].sort(function(a, b) { 
+              if (a.modeloSabor > b.modeloSabor) return 1
+              if (a.modeloSabor < b.modeloSabor) return -1
+              return 0
+            }))
+          }else{
+            deletaEstoque(item.id)
+          }
+        })
       }
-    })
+      })
+
+
     }
     catch(error){
       console.log(error)
-    }  
+    }
   }, []);
  
   const handleAddItem = (e) => {
@@ -49,8 +63,8 @@ function EstoqueManager() {
     
   };
 
-  const handleExcluirEstoque = (idvenda) => {
-    deletaEstoque(idvenda)
+  const handleExcluirEstoque = (idestoque) => {
+    deletaEstoque(idestoque)
   }; 
 
   return (
